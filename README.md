@@ -25,7 +25,7 @@ The table of results is shown below.
 
 Second tool used was **Python**
 
-Porosity for each sample was calculated as follows in _porosity_:
+Porosity for each sample was calculated as follows in _porosity_calc_:
 Porosity = Total Pore Voxels/Total Number of Voxels
 The results for each sample were then plotted on a graph.
 ![porosity_otsu](https://github.com/user-attachments/assets/ae18b066-feaa-47a5-aaf2-9debdb8f9a2f)
