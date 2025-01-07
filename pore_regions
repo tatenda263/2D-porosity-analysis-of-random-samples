@@ -13,43 +13,43 @@ def calculate_porosity_per_slice(raw_file, sample_size, z_min):
         data = np.fromfile(f, dtype=np.uint8)
         data = data.reshape(sample_size)
 
-    # Initialize an empty list to store the porosities
+    #create an empty list to store the porosities
     porosities = []
 
-    # Calculate the porosity for each slice along the length (z-axis)
+    #calculate the porosity for each slice along the length (z-axis)
     for z in range(sample_size[0]):  # Adjusted for (z, y, x) format
         slice_data = data[z, :, :]  # Adjusted for (z, y, x) format
 
-        # Count the number of pore voxels (value 0) and solid voxels (value 255)
+        #count the number of pore voxels (value 0) and solid voxels (value 255)
         pore_voxels = np.count_nonzero(slice_data == 0)
         solid_voxels = np.count_nonzero(slice_data == 255)
 
-        # Calculate porosity
+        #calculate porosity
         porosity = pore_voxels / (pore_voxels + solid_voxels)
         porosities.append(porosity)
 
     return porosities
 
-# Define input parameters
+#define input parameters
 sample_size = (350, 200, 200)  # Adjusted for (z, y, x) format
 output_prefix = "sample"
 
-# List of sample numbers that should be processed
+#list of sample numbers that should be processed
 high_value_samples = [1, 4, 6, 10, 11, 16, 17, 20, 21, 22, 23]
 
-# Initialize lists to store all porosities and region-wise porosities
+#create lists to store all porosities and region-wise porosities
 all_porosities = []
 region_porosities = {'top': [], 'middle': [], 'bottom': []}  # Adjust as needed
 
-# Initialize a figure for the combined plot
+#create a figure for the combined plot
 plt.figure()
 
-# Calculate the porosity for each sample in high_value_samples
+#calculate the porosity for each sample in high_value_samples
 for i in high_value_samples:
     raw_file = f"{output_prefix}_{i}.raw"
     coordinates_file = f"{output_prefix}_coordinates.txt"
     if os.path.exists(raw_file) and os.path.exists(coordinates_file):
-        # Read the coordinates from the text file
+        #read the coordinates from the text file
         with open(coordinates_file, 'r') as f:
             coordinates = [eval(line.strip()) for line in f.readlines()]
         x_min, y_min, z_min = coordinates[i]  # Adjusted for (x, y, z) format
@@ -57,10 +57,10 @@ for i in high_value_samples:
         porosities = calculate_porosity_per_slice(raw_file, sample_size, z_min)
         all_porosities.extend(porosities)
 
-        # Convert slice number to length in micrometers, starting from the top
+        #convert slice number to length in micrometers, starting from the top
         length_in_micrometers = [(z + z_min) * 5.049 for z in range(len(porosities))]
 
-        # Add porosities to region-wise list based on length in micrometers (adjust as needed)
+        #add porosities to region-wise list based on length in micrometers (adjust as needed)
         for length, porosity in zip(length_in_micrometers, porosities):
             if length < 1500:
                 region = 'top'
@@ -70,28 +70,28 @@ for i in high_value_samples:
                 region = 'bottom'
             region_porosities[region].append(porosity)
 
-        # Plot porosity distribution along the length for each sample
+        #plot porosity distribution along the length for each sample
         plt.plot(length_in_micrometers, porosities, label=f'Sample {i}')
 
-# Add vertical lines to indicate the regions on the combined plot
+#add vertical lines to indicate the regions on the combined plot
 plt.axvline(x=1500, color='r', linestyle='--')  # Add a vertical line at 1500 micrometers
 plt.axvline(x=3000, color='r', linestyle='--')  # Add a vertical line at 3000 micrometers
 
-# Show the legend and set the labels and title for the combined plot
+#show the legend and set the labels and title for the combined plot
 plt.legend()
 plt.xlabel('Length (micrometers)')
 plt.ylabel('Porosity')
 plt.title('Porosity Distribution along the Length for All Samples')
 plt.show()
 
-# Calculate average porosity and standard deviation for all samples
+#calculate average porosity and standard deviation for all samples
 average_porosity = np.mean(all_porosities)
 porosity_std_dev = np.std(all_porosities)
 
 print(f"Average Porosity for All Samples: {average_porosity}")
 print(f"Standard Deviation of Porosity for All Samples: {porosity_std_dev}")
 
-# Calculate average porosity and standard deviation for each region
+#calculate average porosity and standard deviation for each region
 for region, porosities in region_porosities.items():
     average_porosity = np.mean(porosities)
     porosity_std_dev = np.std(porosities)
