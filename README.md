@@ -1,10 +1,11 @@
-# porosity-analysis-of-random-samples
-Porosity Assessment in Randomly Generated 3D Savonnières Carbonate Samples
+# 2D-porosity-analysis-of-random-samples
+2D Porosity Assessment in Randomly Generated 3D Savonnières Carbonate Samples
 
 The high-value samples from random-3D-sample-generator were then analysed using open-source tools.
 
 The first analysis was the porosity of each sample.
 Aim was to quantify the absolute and effective porosities of each sample.
+First utilizing 2D analysis i.e. by slice
 
 First tool used was the **BoneJ plugin** in Fiji-ImageJ
 The following parameters were determined:
@@ -31,7 +32,6 @@ The results for each sample were then plotted on a graph.
 
 ![porosity_otsu](https://github.com/user-attachments/assets/ae18b066-feaa-47a5-aaf2-9debdb8f9a2f)
 
-Now comes the complex part.
 I then set out to calculate the pore distribution along the length of each sample.
 This is outlined in _pore_dis_.
 I then incorporated the coordinates of each sample.
