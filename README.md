@@ -7,7 +7,7 @@ The first analysis was the porosity of each sample.
 Aim was to quantify the absolute and effective porosities of each sample.
 
 First tool used was the **BoneJ plugin** in Fiji-ImageJ
-The following parameters were determined:
+The following parameters were determined:/n
 Pore shape - using the surface area to volume ratio
 Connectivity - using the Euler characteristics
 Pore Size Distribution - using the difference between the largest and smallest pores
